@@ -27,9 +27,24 @@ Triage is a Go program designed for performing live forensic analysis on a targe
 **Usage:**
 
 1. Build and run the Triage program on the target system.
-2. Triage will collect system information, create a JSON log file, and archive the data in a ZIP file.
-3. The JSON log file contains detailed system information for live forensic analysis.
-4. The ZIP archive contains all the data, including the JSON log file, for easy transport and storage.
+3. Triage will collect system information, create a JSON log file, and archive the data in a ZIP file.
+4. The JSON log file contains detailed system information for live forensic analysis.
+5. The ZIP archive contains all the data, including the JSON log file, for easy transport and storage.
+
+
+**How to build:**
+1. git clone https://github.com/ipcis/CoreThreat_Triage_Go.git
+2. cd CoreThreat_Triage_Go
+3. go mod init triage
+4. go mod init tidy
+5. go get github.com/botherder/go-autoruns
+6. go get github.com/botherder/go-savetime/files
+7. go get github.com/google/uuid
+8. go get github.com/shirou/gopsutil/net
+9. go get github.com/shirou/gopsutil/process
+10. go build triage.go
+11. chmod 777 triage
+
 
 **Dependencies:**
 
