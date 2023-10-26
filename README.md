@@ -62,6 +62,11 @@ Triage is a Go program designed for performing live forensic analysis on a targe
 
 - Triage is designed for live forensic analysis and educational purposes. Always ensure that you comply with all legal and ethical considerations when using this tool.
 
+**What comes next?**
+
+- upload parameter to upload the zip data to a webserver
+- capture the RAM
+
 **License:**
 
 Triage is provided under the [MIT License](LICENSE).
