@@ -36,9 +36,8 @@ Triage is a Go program designed for performing live forensic analysis on a targe
 5. The ZIP archive contains all the data, including the JSON log file, for easy transport and storage.
 
 **Download precompiled version:**
-```
-https://github.com/ipcis/CoreThreat_Triage_Go/releases/tag/v0.1
-```
+[Download here](https://github.com/ipcis/CoreThreat_Triage_Go/releases/tag/v0.1)
+
 
 **How to build:**
 1. git clone https://github.com/ipcis/CoreThreat_Triage_Go.git
