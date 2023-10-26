@@ -74,13 +74,18 @@ type PrefetchInfo struct {
 var md5Cache sync.Map
 
 func main() {
+
+	fmt.Println("\nCore|Threat Triage\n")
+
+	fmt.Println("[+] Collecting data (please wait)...\n")
+
 	info := getSystemInfo()
 	copyExecutables(info.RunningProcesses, info.AutoRuns, filepath.Join(info.UUID, "executables"), &info)
 
 	// Serialize system information to JSON
 	jsonData, err := json.Marshal(info)
 	if err != nil {
-		fmt.Println("Fehler beim Marshalling der Daten:", err)
+		fmt.Println("[!] Error: Marshalling data:", err)
 		return
 	}
 
@@ -91,21 +96,23 @@ func main() {
 	if logFilePath != "" {
 		err := writeToFile(logFilePath, string(jsonData))
 		if err != nil {
-			fmt.Println("Fehler beim Schreiben in die Datei:", err)
+			fmt.Println("[!] Error: Writing to file :", err)
 		} else {
-			fmt.Printf("JSON-Daten in die Datei %s geschrieben.\n", logFilePath)
+			//fmt.Printf("JSON-Daten in die Datei %s geschrieben.\n", logFilePath)
+			fmt.Printf("[+] JSON file %s was created successfully.\n", logFilePath)
 		}
 	}
 
 	// Create a ZIP file of the directory
 	zipFileName := info.UUID + ".zip"
 	if err := createZipFile(info.UUID, zipFileName, info); err != nil {
-		fmt.Println("Fehler beim Erstellen der ZIP-Datei:", err)
+		fmt.Println("[!] Error: Creating ZIP file failed:", err)
 		return
 	}
 
-	fmt.Println("ZIP-Datei erstellt:", zipFileName)
-	fmt.Println(string(jsonData))
+	fmt.Println("[+] ZIP file was created successfully:", zipFileName)
+	fmt.Println("[+] Completed!")
+	//fmt.Println(string(jsonData))
 }
 
 func createZipFile(sourceDir, zipFileName string, info SystemInfo) error {
@@ -175,15 +182,15 @@ func getSystemInfo() SystemInfo {
 
 	parentDir := "./" + uuidStr
 	if err := os.MkdirAll(parentDir, 0755); err != nil {
-		fmt.Println("Fehler beim Erstellen des übergeordneten Verzeichnisses:", err)
+		fmt.Println("[!] Error: Creating directory failed:", err)
 	}
 
 	destDir := parentDir + "/executables"
 	if err := os.MkdirAll(destDir, 0755); err != nil {
-		fmt.Println("Fehler beim Erstellen des Zielverzeichnisses:", err)
+		fmt.Println("[!] Error: Creating directory failed:", err)
 	}
 
-	fmt.Println("Verzeichnisse wurden erfolgreich erstellt.")
+	//fmt.Println("[+] Creating directory was sucessfully.")
 
 	if runtime.GOOS == "windows" {
 		info.ComputerName = getWindowsComputerName()
@@ -202,7 +209,7 @@ func getSystemInfo() SystemInfo {
 
 func copyExecutables(processes []ProcessInfo, autoruns []AutorunInfo, destDir string, info *SystemInfo) {
 	if err := os.MkdirAll(destDir, 0755); err != nil {
-		fmt.Println("Fehler beim Erstellen des Zielverzeichnisses:", err)
+		fmt.Println("[!] Error: Creating directory failed:", err)
 		return
 	}
 
@@ -212,7 +219,7 @@ func copyExecutables(processes []ProcessInfo, autoruns []AutorunInfo, destDir st
 			dstPath := filepath.Join(destDir, filepath.Base(srcPath)+".bin")
 
 			if err := files.Copy(srcPath, dstPath); err != nil {
-				fmt.Printf("Fehler beim Kopieren von %s: %s\n", srcPath, err)
+				//fmt.Printf("[!] Error: Failed to copy data %s: %s\n", srcPath, err)
 			} else {
 				md5Hash := calculateMD5(dstPath)
 				info.CopiedExecutables = append(info.CopiedExecutables, CopiedExecutableInfo{
@@ -229,7 +236,7 @@ func copyExecutables(processes []ProcessInfo, autoruns []AutorunInfo, destDir st
 			dstPath := filepath.Join(destDir, filepath.Base(srcPath)+".bin")
 
 			if err := files.Copy(srcPath, dstPath); err != nil {
-				fmt.Printf("Fehler beim Kopieren von %s: %s\n", srcPath, err)
+				//fmt.Printf("[!] Error: Failed to copy data %s: %s\n", srcPath, err)
 			} else {
 				md5Hash := calculateMD5(dstPath)
 				info.CopiedExecutables = append(info.CopiedExecutables, CopiedExecutableInfo{
@@ -276,7 +283,7 @@ func getPrefetchFiles() []PrefetchInfo {
 	})
 
 	if err != nil {
-		fmt.Println("Fehler beim Abrufen der Prefetch-Dateien:", err)
+		fmt.Println("[!] Error getting prefetch files:", err)
 	}
 
 	return prefetchInfo
