@@ -1,3 +1,5 @@
+<img src="https://corethreat.net/ct_logo_big.png" height="150px"> 
+
 **Triage - Live Forensic System Information Collector**
 
 Triage is a Go program designed for performing live forensic analysis on a target system. It collects system information and stores it in a structured format for real-time analysis and forensic purposes. Triage retrieves various details about the system, such as running processes, network connections, auto-run configurations, and more, and then saves this information in a JSON log file. Additionally, it archives the collected data in a ZIP file for easy transport and storage.
